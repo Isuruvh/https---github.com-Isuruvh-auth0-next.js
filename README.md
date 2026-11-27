@@ -2,7 +2,21 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Create a **Regular Web Application** in the [Auth0 Dashboard](https://manage.auth0.com), then create `.env.local` in this project directory (not inside `src`):
+
+```env
+AUTH0_DOMAIN=your-tenant.auth0.com
+AUTH0_CLIENT_ID=your-client-id
+AUTH0_CLIENT_SECRET=your-client-secret
+AUTH0_SECRET=your-generated-session-secret
+APP_BASE_URL=http://localhost:3000
+```
+
+Get the domain, client ID, and client secret from the application's settings in the Auth0 Dashboard. Use the domain without `https://`. Generate a random session secret with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`, and replace `your-generated-session-secret` with its output. Keep `.env.local` private; it is ignored by Git.
+
+In the Auth0 application settings, add `http://localhost:3000/auth/callback` to **Allowed Callback URLs** and `http://localhost:3000` to **Allowed Logout URLs**. Adjust these URLs and `APP_BASE_URL` if the app runs on a different port.
+
+Then run the development server:
 
 ```bash
 npm run dev
@@ -13,6 +27,8 @@ pnpm dev
 # or
 bun dev
 ```
+
+Restart the development server after changing `.env.local`. A missing `AUTH0_DOMAIN` causes the `DomainResolutionError` in the proxy.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
